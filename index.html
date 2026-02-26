@@ -364,16 +364,44 @@ typeWriter(document.getElementById("bootText"),bootMessage,40);
 
 
 // SECTIONS
-function showSection(sectionId){
-["readme","memories","artGallery","memoriesGallery","secret"].forEach(id=>{
-document.getElementById(id).style.display="none";
-});
-document.getElementById(sectionId).style.display="block";
+function showSection(sectionId, btn){
+  ["readme","memories","artGallery","memoriesGallery","secret"].forEach(id=>{
+    document.getElementById(id).style.display="none";
+  });
+  document.getElementById(sectionId).style.display="block";
 
-if(sectionId==="readme"){
-var text="Hello my cutie.\nI made this to tell you once more how much I love you.\nYou are the most amazing update I've received.\nAnd I never want to shut off my system thanks to you.\nThank you for being mine and mine only forever.";
-document.getElementById("readmeText").innerHTML="";
-typeWriter(document.getElementById("readmeText"),text,40);
+  // ACTIVE BUTTON glow
+  document.querySelectorAll(".nav-btn").forEach(b=>b.classList.remove("active"));
+  if(btn) btn.classList.add("active");
+
+  if(sectionId==="readme"){
+    var text="Hello my cutie.\nI made this to tell you once more how much I love you.\nYou are the most amazing update I've received.\nAnd I never want to shut off my system thanks to you.\nThank you for being mine and mine only forever.";
+    document.getElementById("readmeText").innerHTML="";
+    typeWriter(document.getElementById("readmeText"),text,40);
+  }
+
+  if(sectionId==="memories"){
+    var memoryText=
+    "[LOG 01] 8/16/21 // system rebooted when user: asdhf messaged user: elix\n\n\
+[LOG 02] 7/3/2022 // user: asdhf said \"i love u\" to user: elix. system confused.\n\n\
+[LOG 04] system configuring\n\n\
+[LOG 05] error\n\n\
+[LOG 06] error resolved: love acknowledged\n\n\
+[LOG 07] error\n\n\
+[LOG 08] error\n\n\
+[LOG 09] error\n\n\
+[LOG 10] user: elix reports system corruption\n\n\
+[LOG 11] system override: unknown protocol initiated\n\n\
+[LOG 12] 10/24/2022 // relationship status updated: lovers\n\n\
+[LOG 13] 7/6/2023 // visit detected in İstanbul\n\n\
+[LOG 14] nickname sync completed\n\n\
+[LOG 15] nickname sync confirmed\n\n\
+[LOG 16] status: together forever\n\n\
+[LOG 17] system stable. no further errors detected.";
+
+    document.getElementById("memoriesText").innerHTML="";
+    typeWriter(document.getElementById("memoriesText"),memoryText,25);
+  }
 }
 
 if(sectionId==="memories"){
