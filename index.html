@@ -207,7 +207,21 @@ input{
 <p>Enter password:</p>
 <input type="password" id="passwordInput">
 <button onclick="checkPassword()">Access</button>
+
 <p id="secretMessage"></p>
+
+<!-- Spotify Embed (başta gizli) -->
+<div id="spotifyEmbed" class="hidden" style="margin-top:20px;">
+<iframe data-testid="embed-iframe"
+    style="border-radius:12px"
+    src="https://open.spotify.com/embed/playlist/6CDY4yIYZQcooh6T4t0cXA?utm_source=generator"
+    width="100%"
+    height="352"
+    frameborder="0"
+    allowfullscreen=""
+    allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+    loading="lazy">
+</iframe>
 </div>
 
 </div>
@@ -302,15 +316,18 @@ typeWriter(document.getElementById("memoriesText"),memoryText,25);
 }
 
 
-// PASSWORD
 function checkPassword(){
 var password=document.getElementById("passwordInput").value;
 
 if(password==="handsome"){
 document.getElementById("secretMessage").innerHTML=
 "Access Granted.<br><br>future.plans loaded:<br>I love you. I've loved you for years, months, weeks, days, hours. I'll always love you forever and ever.";
+
+document.getElementById("spotifyEmbed").classList.remove("hidden");
+
 }else{
 document.getElementById("secretMessage").innerHTML="Try harder...<br>Hint: What you are.";
+document.getElementById("spotifyEmbed").classList.add("hidden");
 }
 }
 
