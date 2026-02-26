@@ -27,137 +27,38 @@ canvas{
 }
 
 button{
-    /* GLASS PANEL (terminal) */
-#terminal{
-    padding:40px;
-    max-width:900px;
     position:relative;
-    z-index:1;
-
-    /* glass */
-    background:rgba(0, 15, 10, 0.35);
-    border:1px solid rgba(0,255,136,0.25);
-    border-radius:18px;
-    box-shadow:
-        0 0 25px rgba(0,255,136,0.10),
-        inset 0 0 22px rgba(0,0,0,0.35);
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-}
-
-/* Nav layout */
-.nav{
-    display:flex;
-    flex-wrap:wrap;
-    gap:10px;
-    align-items:center;
-    margin-bottom:14px;
-}
-
-/* ICON + LABEL neon glass buttons */
-.nav-btn{
-    --glow:#00ff88;
-
-    position:relative;
-    display:inline-flex;
-    align-items:center;
-    gap:10px;
-
-    padding:12px 16px;
-    border-radius:14px;
-
-    background:rgba(0,0,0,0.35);
-    color:var(--glow);
-    border:1px solid rgba(255,255,255,0.10);
-
+    background:linear-gradient(145deg,#001a0f,#000000);
+    color:#00ff88;
+    border:1px solid #00ff88;
+    padding:12px 24px;
+    margin:12px 8px;
+    cursor:pointer;
     font-family:"Courier New", monospace;
-    font-size:13px;
+    font-size:14px;
     letter-spacing:1px;
     text-transform:uppercase;
-
-    cursor:pointer;
-    user-select:none;
     overflow:hidden;
-
-    backdrop-filter: blur(8px);
-    -webkit-backdrop-filter: blur(8px);
-
+    transition:all .3s ease;
+    
+    /* cam efekti */
+    backdrop-filter:blur(4px);
+    
+    /* neon glow */
     box-shadow:
-        0 0 0 1px rgba(0,0,0,0.35),
-        0 0 14px rgba(0,0,0,0.35),
-        0 0 16px color-mix(in srgb, var(--glow) 45%, transparent),
-        inset 0 0 18px rgba(255,255,255,0.05);
-
-    transition: transform .18s ease, box-shadow .25s ease, background .25s ease, color .25s ease;
+        0 0 5px #00ff88,
+        inset 0 0 8px rgba(0,255,136,0.2);
 }
 
-.nav-btn .ico{
-    width:22px;
-    display:inline-flex;
-    align-items:center;
-    justify-content:center;
-    filter: drop-shadow(0 0 6px color-mix(in srgb, var(--glow) 60%, transparent));
-}
-
-.nav-btn .label{
-    white-space:nowrap;
-}
-
-/* Shimmer line */
-.nav-btn::before{
-    content:"";
-    position:absolute;
-    top:-40%;
-    left:-120%;
-    width:60%;
-    height:180%;
-    transform: rotate(20deg);
-    background:linear-gradient(90deg,
-        transparent,
-        rgba(255,255,255,0.18),
-        transparent
-    );
-    transition:left .6s ease;
-}
-
-.nav-btn:hover{
-    transform: translateY(-2px);
-    background:rgba(0,0,0,0.55);
+/* Hover efekti */
+button:hover{
+    background:#00ff88;
+    color:black;
     box-shadow:
-        0 0 0 1px rgba(0,0,0,0.35),
-        0 0 22px color-mix(in srgb, var(--glow) 55%, transparent),
-        0 0 40px color-mix(in srgb, var(--glow) 35%, transparent),
-        inset 0 0 22px rgba(255,255,255,0.06);
-}
-
-.nav-btn:hover::before{
-    left:140%;
-}
-
-.nav-btn:active{
-    transform: translateY(0px) scale(0.99);
-}
-
-/* ACTIVE = “yanıyor” */
-.nav-btn.active{
-    background: color-mix(in srgb, var(--glow) 12%, rgba(0,0,0,0.45));
-    border-color: color-mix(in srgb, var(--glow) 60%, rgba(255,255,255,0.10));
-    box-shadow:
-        0 0 0 1px rgba(0,0,0,0.35),
-        0 0 26px color-mix(in srgb, var(--glow) 70%, transparent),
-        0 0 60px color-mix(in srgb, var(--glow) 45%, transparent),
-        inset 0 0 26px color-mix(in srgb, var(--glow) 22%, transparent);
-    animation: activePulse 1.25s ease-in-out infinite;
-}
-
-@keyframes activePulse{
-  0%,100%{
-    filter: brightness(1);
-  }
-  50%{
-    filter: brightness(1.25);
-  }
-}
+        0 0 10px #00ff88,
+        0 0 25px #00ff88,
+        inset 0 0 10px rgba(0,0,0,0.5);
+    transform:translateY(-2px);
 }
 
 /* Tıklama efekti */
@@ -364,44 +265,16 @@ typeWriter(document.getElementById("bootText"),bootMessage,40);
 
 
 // SECTIONS
-function showSection(sectionId, btn){
-  ["readme","memories","artGallery","memoriesGallery","secret"].forEach(id=>{
-    document.getElementById(id).style.display="none";
-  });
-  document.getElementById(sectionId).style.display="block";
+function showSection(sectionId){
+["readme","memories","artGallery","memoriesGallery","secret"].forEach(id=>{
+document.getElementById(id).style.display="none";
+});
+document.getElementById(sectionId).style.display="block";
 
-  // ACTIVE BUTTON glow
-  document.querySelectorAll(".nav-btn").forEach(b=>b.classList.remove("active"));
-  if(btn) btn.classList.add("active");
-
-  if(sectionId==="readme"){
-    var text="Hello my cutie.\nI made this to tell you once more how much I love you.\nYou are the most amazing update I've received.\nAnd I never want to shut off my system thanks to you.\nThank you for being mine and mine only forever.";
-    document.getElementById("readmeText").innerHTML="";
-    typeWriter(document.getElementById("readmeText"),text,40);
-  }
-
-  if(sectionId==="memories"){
-    var memoryText=
-    "[LOG 01] 8/16/21 // system rebooted when user: asdhf messaged user: elix\n\n\
-[LOG 02] 7/3/2022 // user: asdhf said \"i love u\" to user: elix. system confused.\n\n\
-[LOG 04] system configuring\n\n\
-[LOG 05] error\n\n\
-[LOG 06] error resolved: love acknowledged\n\n\
-[LOG 07] error\n\n\
-[LOG 08] error\n\n\
-[LOG 09] error\n\n\
-[LOG 10] user: elix reports system corruption\n\n\
-[LOG 11] system override: unknown protocol initiated\n\n\
-[LOG 12] 10/24/2022 // relationship status updated: lovers\n\n\
-[LOG 13] 7/6/2023 // visit detected in İstanbul\n\n\
-[LOG 14] nickname sync completed\n\n\
-[LOG 15] nickname sync confirmed\n\n\
-[LOG 16] status: together forever\n\n\
-[LOG 17] system stable. no further errors detected.";
-
-    document.getElementById("memoriesText").innerHTML="";
-    typeWriter(document.getElementById("memoriesText"),memoryText,25);
-  }
+if(sectionId==="readme"){
+var text="Hello my cutie.\nI made this to tell you once more how much I love you.\nYou are the most amazing update I've received.\nAnd I never want to shut off my system thanks to you.\nThank you for being mine and mine only forever.";
+document.getElementById("readmeText").innerHTML="";
+typeWriter(document.getElementById("readmeText"),text,40);
 }
 
 if(sectionId==="memories"){
