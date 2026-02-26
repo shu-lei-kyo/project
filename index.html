@@ -5,51 +5,71 @@
 <title>PROJECT: You.exe</title>
 
 <style>
-body {
+body{
     margin:0;
     background:black;
     color:#00ff88;
-    font-family: "Courier New", monospace;
+    font-family:"Courier New", monospace;
     overflow:hidden;
 }
-#memoriesText{
-    white-space: pre-line;
-}
-canvas {
+
+canvas{
     position:fixed;
     top:0;
     left:0;
     z-index:-1;
 }
 
-#terminal {
+#terminal{
     padding:40px;
+    max-width:900px;
 }
 
-button {
+button{
     background:black;
     color:#00ff88;
     border:1px solid #00ff88;
-    padding:8px 15px;
+    padding:8px 18px;
     margin:10px 5px;
     cursor:pointer;
+    transition:.2s;
+}
+button:hover{
+    background:#00ff88;
+    color:black;
 }
 
-input {
+input{
     background:black;
     color:#00ff88;
     border:1px solid #00ff88;
-    padding:5px;
+    padding:6px;
 }
 
-.hidden {
+.hidden{
     display:none;
 }
 
-img {
-    width:200px;
-    margin:10px;
+/* Gallery grid */
+.gallery-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
+    gap:15px;
+    margin-top:15px;
+}
+
+.gallery-grid img{
+    width:100%;
     border:1px solid #00ff88;
+    transition:.3s;
+}
+.gallery-grid img:hover{
+    transform:scale(1.05);
+    box-shadow:0 0 15px #00ff88;
+}
+
+#memoriesText{
+    white-space:pre-line;
 }
 </style>
 </head>
@@ -59,124 +79,122 @@ img {
 <canvas id="matrix"></canvas>
 
 <div id="terminal">
-    <div id="bootText"></div>
+<div id="bootText"></div>
+<br>
 
-    <br>
+<button onclick="showSection('readme')">README.md</button>
+<button onclick="showSection('memories')">memories.log</button>
+<button onclick="showSection('gallery')">gallery</button>
+<button onclick="showSection('secret')">restricted_area</button>
 
-    <button onclick="showSection('readme')">README.md</button>
-    <button onclick="showSection('memories')">memories.log</button>
-    <button onclick="showSection('gallery')">art_gallery.exe</button>
-    <button onclick="showSection('secret')">restricted_area</button>
 
-    <div id="readme" class="hidden">
-        <h3>README.md</h3>
-        <p id="readmeText"></p>
-    </div>
+<!-- README -->
+<div id="readme" class="hidden">
+<h3>README.md</h3>
+<p id="readmeText"></p>
+</div>
 
-    <div id="memories" class="hidden">
-        <h3>memories.log</h3>
-        <p id="memoriesText"></p>
 
-        
+<!-- MEMORIES -->
+<div id="memories" class="hidden">
+<h3>memories.log</h3>
+<p id="memoriesText"></p>
+</div>
 
-    </div>
 
-    <div id="gallery" class="hidden">
-        <h3>art_gallery.exe</h3>
-        <p>Rendering feelings...</p>
-        <img src="https://via.placeholder.com/200">
-        <img src="https://via.placeholder.com/200">
-    </div>
+<!-- GALLERY -->
+<div id="gallery" class="hidden">
+<h3>gallery</h3>
+<p>Loading memories...</p>
 
-    <div id="secret" class="hidden">
-        <h3>restricted_area</h3>
-        <p>Enter password:</p>
-        <input type="password" id="passwordInput">
-        <button onclick="checkPassword()">Access</button>
-        <p id="secretMessage"></p>
-    </div>
+<div class="gallery-grid">
+<img src="https://via.placeholder.com/300">
+<img src="https://via.placeholder.com/300">
+<img src="https://via.placeholder.com/300">
+<img src="https://via.placeholder.com/300">
+</div>
+
+</div>
+
+
+<!-- SECRET -->
+<div id="secret" class="hidden">
+<h3>restricted_area</h3>
+<p>Enter password:</p>
+<input type="password" id="passwordInput">
+<button onclick="checkPassword()">Access</button>
+<p id="secretMessage"></p>
+</div>
+
 </div>
 
 <script>
 
 // MATRIX EFFECT
-var canvas = document.getElementById("matrix");
-var ctx = canvas.getContext("2d");
+var canvas=document.getElementById("matrix");
+var ctx=canvas.getContext("2d");
 
-canvas.height = window.innerHeight;
-canvas.width = window.innerWidth;
+canvas.height=window.innerHeight;
+canvas.width=window.innerWidth;
 
-var letters = "ILOVEYOU";
-letters = letters.split("");
+var letters="ILOVEYOU".split("");
+var fontSize=14;
+var columns=canvas.width/fontSize;
+var drops=[];
 
-var fontSize = 14;
-var columns = canvas.width/fontSize;
-var drops = [];
-
-for(var x=0; x<columns; x++)
-    drops[x]=1;
+for(var x=0;x<columns;x++) drops[x]=1;
 
 function draw(){
-    ctx.fillStyle="rgba(0,0,0,0.05)";
-    ctx.fillRect(0,0,canvas.width,canvas.height);
+ctx.fillStyle="rgba(0,0,0,0.05)";
+ctx.fillRect(0,0,canvas.width,canvas.height);
 
-    ctx.fillStyle="#004d29";
-    ctx.font=fontSize+"px monospace";
+ctx.fillStyle="#004d29";
+ctx.font=fontSize+"px monospace";
 
-    for(var i=0;i<drops.length;i++){
-        var text=letters[Math.floor(Math.random()*letters.length)];
-        ctx.fillText(text,i*fontSize,drops[i]*fontSize);
+for(var i=0;i<drops.length;i++){
+var text=letters[Math.floor(Math.random()*letters.length)];
+ctx.fillText(text,i*fontSize,drops[i]*fontSize);
 
-        if(drops[i]*fontSize>canvas.height && Math.random()>0.975)
-            drops[i]=0;
+if(drops[i]*fontSize>canvas.height && Math.random()>0.975)
+drops[i]=0;
 
-        drops[i]++;
-    }
+drops[i]++;
+}
 }
 setInterval(draw,33);
 
 
-// TYPEWRITER EFFECT
-function typeWriter(element, text, speed) {
-    let i = 0;
-    function typing() {
-        if (i < text.length) {
-            element.innerHTML += text.charAt(i);
-            i++;
-            setTimeout(typing, speed);
-        }
-    }
-    typing();
+// TYPEWRITER
+function typeWriter(element,text,speed){
+let i=0;
+function typing(){
+if(i<text.length){
+element.innerHTML+=text.charAt(i);
+i++;
+setTimeout(typing,speed);
+}}
+typing();
 }
 
-var bootMessage = "> booting love_system...\n> checking heart...\n> heart status: CONNECTED\n> launching PROJECT...\n";
-typeWriter(document.getElementById("bootText"), bootMessage, 40);
+var bootMessage="> booting love_system...\n> checking heart...\n> heart status: CONNECTED\n> launching PROJECT...\n";
+typeWriter(document.getElementById("bootText"),bootMessage,40);
 
 
 // SECTIONS
-function showSection(sectionId) {
-    document.getElementById("readme").style.display="none";
-    document.getElementById("memories").style.display="none";
-    document.getElementById("gallery").style.display="none";
-    document.getElementById("secret").style.display="none";
-    document.getElementById(sectionId).style.display="block";
+function showSection(sectionId){
+["readme","memories","gallery","secret"].forEach(id=>{
+document.getElementById(id).style.display="none";
+});
+document.getElementById(sectionId).style.display="block";
+
+if(sectionId==="readme"){
+var text="Hello my cutie.\nI made this to tell you once more how much I love you.\nYou are the most amazing update I've received.\nAnd I never want to shut off my system thanks to you.\nThank you for being mine and mine only forever.";
+document.getElementById("readmeText").innerHTML="";
+typeWriter(document.getElementById("readmeText"),text,40);
 }
 
-// README TYPE EFFECT
-function showSection(sectionId) {
-    document.getElementById("readme").style.display="none";
-    document.getElementById("memories").style.display="none";
-    document.getElementById("gallery").style.display="none";
-    document.getElementById("secret").style.display="none";
-    document.getElementById(sectionId).style.display="block";
-
-    if(sectionId==="readme"){
-        var text="Hello my cutie.\nI made this to tell you once more how much I love you.\nYou are the most amazing update I've received.\nAnd I never want to shut off my system thanks to you.\nThank you for being mine and mine only forever.";
-        document.getElementById("readmeText").innerHTML="";
-        typeWriter(document.getElementById("readmeText"), text, 40);
-    }
-    if(sectionId==="memories"){
-    var memoryText = 
+if(sectionId==="memories"){
+var memoryText=
 "[LOG 01] 8/16/21 // system rebooted when user: asdhf messaged user: elix\n\n\
 [LOG 02] 7/3/2022 // user: asdhf said \"i love u\" to user: elix. system confused.\n\n\
 [LOG 04] system configuring\n\n\
@@ -188,32 +206,30 @@ function showSection(sectionId) {
 [LOG 10] user: elix reports system corruption\n\n\
 [LOG 11] system override: unknown protocol initiated\n\n\
 [LOG 12] 10/24/2022 // relationship status updated: lovers\n\n\
-[LOG 13] 7/6/2023 // user: Ruru visits user: Şuşu in: İstanbul.\n\n\
-[LOG 14] user: Şuşu renames user:Ruru = Aşkım\n\n\
-[LOG 15] user: Aşkım renames user:Şuşu = Aşkım\n\n\
-[LOG 16] user: Aşkım and user: Aşkım status: together forever.\n\n\
+[LOG 13] 7/6/2023 // visit detected in İstanbul\n\n\
+[LOG 14] nickname sync completed\n\n\
+[LOG 15] nickname sync confirmed\n\n\
+[LOG 16] status: together forever\n\n\
 [LOG 17] system stable. no further errors detected.";
 
-    document.getElementById("memoriesText").innerHTML="";
-    typeWriter(document.getElementById("memoriesText"), memoryText, 25);
-
-    }
+document.getElementById("memoriesText").innerHTML="";
+typeWriter(document.getElementById("memoriesText"),memoryText,25);
+}
 }
 
 
 // PASSWORD
 function checkPassword(){
-    var password=document.getElementById("passwordInput").value;
+var password=document.getElementById("passwordInput").value;
 
-    if(password==="handsome"){
-        document.getElementById("secretMessage").innerHTML=
-        "Access Granted.<br><br>future.plans loaded:<br>I love you. I've loved you for years, I've loved you for months, for weeks, for days, for hours. I'll always love you forever and ever. I'll keep loving you until the end of time. You're my everything.";
-    }else{
-        document.getElementById("secretMessage").innerHTML="Try harder...\nHint:What you are.";
-    }
+if(password==="handsome"){
+document.getElementById("secretMessage").innerHTML=
+"Access Granted.<br><br>future.plans loaded:<br>I love you. I've loved you for years, months, weeks, days, hours. I'll always love you forever and ever.";
+}else{
+document.getElementById("secretMessage").innerHTML="Try harder...<br>Hint: What you are.";
+}
 }
 
 </script>
-
 </body>
 </html>
