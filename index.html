@@ -102,7 +102,7 @@ var ctx = canvas.getContext("2d");
 canvas.height = window.innerHeight;
 canvas.width = window.innerWidth;
 
-var letters = "01LOVE";
+var letters = "ILOVEYOU";
 letters = letters.split("");
 
 var fontSize = 14;
@@ -116,7 +116,7 @@ function draw(){
     ctx.fillStyle="rgba(0,0,0,0.05)";
     ctx.fillRect(0,0,canvas.width,canvas.height);
 
-    ctx.fillStyle="#00ff88";
+    ctx.fillStyle="#004d29";
     ctx.font=fontSize+"px monospace";
 
     for(var i=0;i<drops.length;i++){
@@ -180,7 +180,7 @@ function checkPassword(){
 
     if(password==="1234"){
         document.getElementById("secretMessage").innerHTML=
-        "Access Granted ❤️<br><br>future.plans loaded:<br>Sen + Ben + Aynı ev + Belki bir kedi + Sonsuzluk";
+        "Access Granted.<br><br>future.plans loaded:<br>I love you. I've loved you for years, I've loved you for months, for weeks, for days, for hours. I'll always love you forever and ever. I'll keep loving you until the end of time. You're my everything.";
     }else{
         document.getElementById("secretMessage").innerHTML="Access Denied.";
     }
