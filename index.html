@@ -84,7 +84,8 @@ input{
 
 <button onclick="showSection('readme')">README.md</button>
 <button onclick="showSection('memories')">memories.log</button>
-<button onclick="showSection('gallery')">gallery</button>
+<button onclick="showSection('artGallery')">art gallery</button>
+<button onclick="showSection('memoriesGallery')">memories gallery</button>
 <button onclick="showSection('secret')">restricted_area</button>
 
 
@@ -102,18 +103,34 @@ input{
 </div>
 
 
-<!-- GALLERY -->
-<div id="gallery" class="hidden">
-<h3>gallery</h3>
+<!-- ART GALLERY -->
+<div id="artGallery" class="hidden">
+<h3>art gallery</h3>
 <p>Loading memories...</p>
 
 <div class="gallery-grid">
-<img src="https://i.ibb.co/z1nXMDj/img1.jpg">
-<img src="https://via.placeholder.com/300">
-<img src="https://via.placeholder.com/300">
-<img src="https://via.placeholder.com/300">
+    <img src="https://i.ibb.co/z1nXMDj/img1.jpg">
+    <img src="https://i.ibb.co/C3BRV4BW/img2.jpg">
+</div>
 </div>
 
+
+<!-- MEMORIES GALLERY -->
+<div id="memoriesGallery" class="hidden">
+<h3>memories gallery</h3>
+<p>Loading memories...</p>
+
+<div class="gallery-grid">
+    <!-- 8 photos - replace src later -->
+    <img src="https://i.ibb.co/6cwvJwJK/img3.jpg">
+    <img src="https://i.ibb.co/DDHYphxG/img4.jpg">
+    <img src="https://i.ibb.co/bjjhD9Cp/img5.jpg">
+    <img src="https://i.ibb.co/4ZS9psQX/img6.jpg">
+    <img src="https://i.ibb.co/4wKG0wQz/img7.jpg">
+    <img src="https://i.ibb.co/8gnqZ3vk/img8.jpg">
+    <img src="https://i.ibb.co/k2t8xBDF/img9.jpg">
+    <img src="https://i.ibb.co/6cHQdDyL/img10.jpg">
+</div>
 </div>
 
 
@@ -182,7 +199,7 @@ typeWriter(document.getElementById("bootText"),bootMessage,40);
 
 // SECTIONS
 function showSection(sectionId){
-["readme","memories","gallery","secret"].forEach(id=>{
+["readme","memories","artGallery","memoriesGallery","secret"].forEach(id=>{
 document.getElementById(id).style.display="none";
 });
 document.getElementById(sectionId).style.display="block";
