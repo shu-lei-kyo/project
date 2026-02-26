@@ -133,11 +133,27 @@ input{
 <div id="bootText"></div>
 <br>
 
-<button onclick="showSection('readme')">README.md</button>
-<button onclick="showSection('memories')">memories.log</button>
-<button onclick="showSection('artGallery')">art gallery</button>
-<button onclick="showSection('memoriesGallery')">memories gallery</button>
-<button onclick="showSection('secret')">restricted_area</button>
+<div class="nav">
+  <button class="nav-btn" style="--glow:#00ff88" data-section="readme" onclick="showSection('readme', this)">
+    <span class="ico">📄</span><span class="label">README.md</span>
+  </button>
+
+  <button class="nav-btn" style="--glow:#00c8ff" data-section="memories" onclick="showSection('memories', this)">
+    <span class="ico">🧠</span><span class="label">memories.log</span>
+  </button>
+
+  <button class="nav-btn" style="--glow:#ff2d95" data-section="artGallery" onclick="showSection('artGallery', this)">
+    <span class="ico">🎨</span><span class="label">art gallery</span>
+  </button>
+
+  <button class="nav-btn" style="--glow:#ffd000" data-section="memoriesGallery" onclick="showSection('memoriesGallery', this)">
+    <span class="ico">🖼️</span><span class="label">memories gallery</span>
+  </button>
+
+  <button class="nav-btn" style="--glow:#b400ff" data-section="secret" onclick="showSection('secret', this)">
+    <span class="ico">🔒</span><span class="label">restricted_area</span>
+  </button>
+</div>
 
 
 <!-- README -->
