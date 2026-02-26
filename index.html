@@ -73,22 +73,7 @@ img {
 
     <div id="memories" class="hidden">
         <h3>memories.log</h3>
-        <p>[LOG 01] 8/16/21 // system rebooted when user: asdhf messaged user: elix</p>
-        <p>[LOG 02] 7/3/2022 // user: asdhf said "i love u" to user: elix. system confused.</p>
-        <p>[LOG 04] system configuring</p>
-        <p>[LOG 05] error</p>
-        <p>[LOG 06] error resolved: love acknowledged</p>
-        <p>[LOG 07] error</p>
-        <p>[LOG 08] error</p>
-        <p>[LOG 09] error</p>
-        <p>[LOG 10] user: elix reports system corruption</p>
-        <p>[LOG 11] system override: unknown protocol initiated</p>
-        <p>[LOG 12] 10/24/2022 //  relationship status updated: lovers</p>
-        <p>[LOG 13] 7/6/2023 // user: Ruru visits user: Şuşu in: İstanbul.</p>
-        <p>[LOG 14] user: Şuşu renames user:Ruru = Aşkım</p>
-        <p>[LOG 15] user: Aşkım renames user:Şuşu = Aşkım</p>
-        <p>[LOG 16] user: Aşkım and user: Aşkım status: together forever.</p>
-        <p>[LOG 17] system stable. no further errors detected.</p>
+        <p id="memoriesText"></p>
 
         
 
@@ -187,6 +172,29 @@ function showSection(sectionId) {
         var text="Merhaba sevgilim...\nBu proje kalple yazıldı.\nHayatımdaki en güzel update sensin.\nVe bu sistemi asla kapatmak istemiyorum.";
         document.getElementById("readmeText").innerHTML="";
         typeWriter(document.getElementById("readmeText"), text, 40);
+
+    if(sectionId==="memories"){
+    var memoryText = 
+"[LOG 01] 8/16/21 // system rebooted when user: asdhf messaged user: elix\n\n\
+[LOG 02] 7/3/2022 // user: asdhf said \"i love u\" to user: elix. system confused.\n\n\
+[LOG 04] system configuring\n\n\
+[LOG 05] error\n\n\
+[LOG 06] error resolved: love acknowledged\n\n\
+[LOG 07] error\n\n\
+[LOG 08] error\n\n\
+[LOG 09] error\n\n\
+[LOG 10] user: elix reports system corruption\n\n\
+[LOG 11] system override: unknown protocol initiated\n\n\
+[LOG 12] 10/24/2022 // relationship status updated: lovers\n\n\
+[LOG 13] 7/6/2023 // user: Ruru visits user: Şuşu in: İstanbul.\n\n\
+[LOG 14] user: Şuşu renames user:Ruru = Aşkım\n\n\
+[LOG 15] user: Aşkım renames user:Şuşu = Aşkım\n\n\
+[LOG 16] user: Aşkım and user: Aşkım status: together forever.\n\n\
+[LOG 17] system stable. no further errors detected.";
+
+    document.getElementById("memoriesText").innerHTML="";
+    typeWriter(document.getElementById("memoriesText"), memoryText, 25);
+
     }
 }
 
