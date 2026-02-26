@@ -6,86 +6,186 @@
 
 <style>
 body {
-    background-color: black;
-    color: #00ff88;
+    margin:0;
+    background:black;
+    color:#00ff88;
     font-family: "Courier New", monospace;
-    text-align: center;
-    padding: 40px;
+    overflow:hidden;
+}
+
+canvas {
+    position:fixed;
+    top:0;
+    left:0;
+    z-index:-1;
+}
+
+#terminal {
+    padding:40px;
 }
 
 button {
-    background-color: black;
-    color: #00ff88;
-    border: 1px solid #00ff88;
-    padding: 10px 20px;
-    margin: 20px;
-    cursor: pointer;
-}
-
-.hidden {
-    display: none;
+    background:black;
+    color:#00ff88;
+    border:1px solid #00ff88;
+    padding:8px 15px;
+    margin:10px 5px;
+    cursor:pointer;
 }
 
 input {
-    background: black;
-    color: #00ff88;
-    border: 1px solid #00ff88;
-    padding: 5px;
+    background:black;
+    color:#00ff88;
+    border:1px solid #00ff88;
+    padding:5px;
+}
+
+.hidden {
+    display:none;
+}
+
+img {
+    width:200px;
+    margin:10px;
+    border:1px solid #00ff88;
 }
 </style>
 </head>
 
 <body>
 
-<h1>PROJECT: You.exe</h1>
+<canvas id="matrix"></canvas>
 
-<p>> booting love_system...</p>
-<p>> heart status: connected</p>
-<p>> launching project...</p>
+<div id="terminal">
+    <div id="bootText"></div>
 
-<button onclick="showSection('readme')">README.md</button>
-<button onclick="showSection('memories')">memories.log</button>
-<button onclick="showSection('secret')">restricted_area</button>
+    <br>
 
-<div id="readme" class="hidden">
-    <h2>README.md</h2>
-    <p>Merhaba sevgilim,</p>
-    <p>Bu proje kalple yazıldı.</p>
-    <p>Hayatımdaki en güzel update sensin.</p>
-</div>
+    <button onclick="showSection('readme')">README.md</button>
+    <button onclick="showSection('memories')">memories.log</button>
+    <button onclick="showSection('gallery')">art_gallery.exe</button>
+    <button onclick="showSection('secret')">restricted_area</button>
 
-<div id="memories" class="hidden">
-    <h2>memories.log</h2>
-    <p>[LOG 01] Tanıştığımız gün sistemim hızlandı.</p>
-    <p>[LOG 02] İlk sarılma: güvenlik duvarı devre dışı.</p>
-</div>
+    <div id="readme" class="hidden">
+        <h3>README.md</h3>
+        <p id="readmeText"></p>
+    </div>
 
-<div id="secret" class="hidden">
-    <h2>restricted_area</h2>
-    <p>Şifreyi gir:</p>
-    <input type="password" id="passwordInput">
-    <button onclick="checkPassword()">Access</button>
-    <p id="secretMessage"></p>
+    <div id="memories" class="hidden">
+        <h3>memories.log</h3>
+        <p>[LOG 01] Tanıştığımız gün sistemim hızlandı.</p>
+        <p>[LOG 02] İlk sarılma: firewall disabled ❤️</p>
+    </div>
+
+    <div id="gallery" class="hidden">
+        <h3>art_gallery.exe</h3>
+        <p>Rendering feelings...</p>
+        <img src="https://via.placeholder.com/200">
+        <img src="https://via.placeholder.com/200">
+    </div>
+
+    <div id="secret" class="hidden">
+        <h3>restricted_area</h3>
+        <p>Enter password:</p>
+        <input type="password" id="passwordInput">
+        <button onclick="checkPassword()">Access</button>
+        <p id="secretMessage"></p>
+    </div>
 </div>
 
 <script>
-function showSection(sectionId) {
-    document.getElementById("readme").style.display = "none";
-    document.getElementById("memories").style.display = "none";
-    document.getElementById("secret").style.display = "none";
-    document.getElementById(sectionId).style.display = "block";
-}
 
-function checkPassword() {
-    var password = document.getElementById("passwordInput").value;
-    if (password === "1234") {
-        document.getElementById("secretMessage").innerHTML =
-        "Access Granted ❤️<br><br>future.plans loaded:<br>Sen + Ben + Aynı ev + Sonsuzluk";
-    } else {
-        document.getElementById("secretMessage").innerHTML =
-        "Access Denied.";
+// MATRIX EFFECT
+var canvas = document.getElementById("matrix");
+var ctx = canvas.getContext("2d");
+
+canvas.height = window.innerHeight;
+canvas.width = window.innerWidth;
+
+var letters = "01LOVE";
+letters = letters.split("");
+
+var fontSize = 14;
+var columns = canvas.width/fontSize;
+var drops = [];
+
+for(var x=0; x<columns; x++)
+    drops[x]=1;
+
+function draw(){
+    ctx.fillStyle="rgba(0,0,0,0.05)";
+    ctx.fillRect(0,0,canvas.width,canvas.height);
+
+    ctx.fillStyle="#00ff88";
+    ctx.font=fontSize+"px monospace";
+
+    for(var i=0;i<drops.length;i++){
+        var text=letters[Math.floor(Math.random()*letters.length)];
+        ctx.fillText(text,i*fontSize,drops[i]*fontSize);
+
+        if(drops[i]*fontSize>canvas.height && Math.random()>0.975)
+            drops[i]=0;
+
+        drops[i]++;
     }
 }
+setInterval(draw,33);
+
+
+// TYPEWRITER EFFECT
+function typeWriter(element, text, speed) {
+    let i = 0;
+    function typing() {
+        if (i < text.length) {
+            element.innerHTML += text.charAt(i);
+            i++;
+            setTimeout(typing, speed);
+        }
+    }
+    typing();
+}
+
+var bootMessage = "> booting love_system...\n> checking heart...\n> heart status: CONNECTED\n> launching PROJECT...\n";
+typeWriter(document.getElementById("bootText"), bootMessage, 40);
+
+
+// SECTIONS
+function showSection(sectionId) {
+    document.getElementById("readme").style.display="none";
+    document.getElementById("memories").style.display="none";
+    document.getElementById("gallery").style.display="none";
+    document.getElementById("secret").style.display="none";
+    document.getElementById(sectionId).style.display="block";
+}
+
+// README TYPE EFFECT
+function showSection(sectionId) {
+    document.getElementById("readme").style.display="none";
+    document.getElementById("memories").style.display="none";
+    document.getElementById("gallery").style.display="none";
+    document.getElementById("secret").style.display="none";
+    document.getElementById(sectionId).style.display="block";
+
+    if(sectionId==="readme"){
+        var text="Merhaba sevgilim...\nBu proje kalple yazıldı.\nHayatımdaki en güzel update sensin.\nVe bu sistemi asla kapatmak istemiyorum.";
+        document.getElementById("readmeText").innerHTML="";
+        typeWriter(document.getElementById("readmeText"), text, 40);
+    }
+}
+
+
+// PASSWORD
+function checkPassword(){
+    var password=document.getElementById("passwordInput").value;
+
+    if(password==="1234"){
+        document.getElementById("secretMessage").innerHTML=
+        "Access Granted ❤️<br><br>future.plans loaded:<br>Sen + Ben + Aynı ev + Belki bir kedi + Sonsuzluk";
+    }else{
+        document.getElementById("secretMessage").innerHTML="Access Denied.";
+    }
+}
+
 </script>
 
 </body>
